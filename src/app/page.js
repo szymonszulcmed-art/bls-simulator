@@ -1,6 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 
 export default function Home() {
+  const [openChoking, setOpenChoking] = useState(false);
+
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <section className="max-w-7xl mx-auto px-6 py-10">
@@ -12,9 +17,12 @@ export default function Home() {
             </p>
           </div>
 
-          <button className="bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold">
+          <a
+            href="#scenariusze"
+            className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-2xl font-bold"
+          >
             Rozpocznij
-          </button>
+          </a>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-16">
@@ -33,9 +41,12 @@ export default function Home() {
             </p>
 
             <div className="flex gap-4 mt-8">
-              <button className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-4 rounded-2xl font-bold">
+              <a
+                href="#scenariusze"
+                className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-4 rounded-2xl font-bold"
+              >
                 Wybierz scenariusz
-              </button>
+              </a>
 
               <button className="bg-white border px-6 py-4 rounded-2xl font-bold">
                 O projekcie
@@ -54,7 +65,7 @@ export default function Home() {
           </div>
         </div>
 
-        <section>
+        <section id="scenariusze">
           <h2 className="text-3xl font-bold mb-6">Scenariusze</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -66,13 +77,53 @@ export default function Home() {
               href="/bls"
             />
 
-            <ScenarioCard
-              title="Zadławienie"
-              description="Łagodne i ciężkie zadławienie, utrata przytomności."
-              status="Wkrótce"
-              color="orange"
-              href="/zadlawienie"
-            />
+            <div className="bg-white border rounded-3xl p-6 hover:shadow-md transition">
+              <button
+                onClick={() => setOpenChoking(!openChoking)}
+                className="w-full text-left"
+              >
+                <div className="inline-block px-4 py-2 rounded-full text-sm font-bold bg-orange-500 text-white">
+                  Dostępne
+                </div>
+
+                <div className="flex items-center justify-between mt-6">
+                  <h3 className="text-2xl font-bold">Zadławienie</h3>
+
+                  <span className="text-3xl font-bold text-orange-500">
+                    {openChoking ? "▲" : "▼"}
+                  </span>
+                </div>
+
+                <p className="text-slate-600 mt-3 min-h-16">
+                  Wybierz wariant scenariusza: dorosły, dziecko lub niemowlę.
+                </p>
+              </button>
+
+              {openChoking && (
+                <div className="mt-6 space-y-3">
+                  <Link
+                    href="/zadlawienie"
+                    className="block bg-slate-900 hover:bg-slate-800 text-white p-4 rounded-2xl font-bold text-center"
+                  >
+                    Zadławienie dorosłych
+                  </Link>
+
+                  <Link
+                    href="/zadlawienie-dzieci"
+                    className="block bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-2xl font-bold text-center"
+                  >
+                    Zadławienie dzieci
+                  </Link>
+
+                  <Link
+                    href="/zadlawienie-niemowlat"
+                    className="block bg-orange-100 hover:bg-orange-200 text-orange-700 p-4 rounded-2xl font-bold text-center"
+                  >
+                    Zadławienie niemowląt
+                  </Link>
+                </div>
+              )}
+            </div>
 
             <ScenarioCard
               title="Urazy"
@@ -88,13 +139,7 @@ export default function Home() {
   );
 }
 
-function ScenarioCard({
-  title,
-  description,
-  status,
-  color,
-  href,
-}) {
+function ScenarioCard({ title, description, status, color, href }) {
   const colors = {
     blue: "bg-blue-700 text-white",
     orange: "bg-orange-500 text-white",
@@ -111,9 +156,7 @@ function ScenarioCard({
 
       <h3 className="text-2xl font-bold mt-6">{title}</h3>
 
-      <p className="text-slate-600 mt-3 min-h-16">
-        {description}
-      </p>
+      <p className="text-slate-600 mt-3 min-h-16">{description}</p>
 
       <Link
         href={href}
