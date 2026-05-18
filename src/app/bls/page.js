@@ -185,9 +185,7 @@ export default function BLS() {
           <div className="flex items-center gap-4">
             <h1 className="text-4xl font-bold">SYMULATOR BLS</h1>
 
-            <span className="bg-blue-700 text-white px-5 py-2 rounded-full font-bold">
-              SCENARIUSZ 1
-            </span>
+            
           </div>
 
           <div className="flex gap-3">
